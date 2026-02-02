@@ -1,0 +1,36 @@
+create database suporte;
+use suporte;
+
+create table cliente (
+	COD_cliente int auto_increment primary key,
+    nome varchar (100) not null,
+    fone varchar (20),
+    endereco varchar (200),
+    email varchar (100)
+);
+
+create table servico (
+	NUM_SERV INT AUTO_INCREMENT PRIMARY KEY,
+    DESCRICAO VARCHAR (100) NOT NULL,
+    VALOR_UNT DECIMAL (10,2) NOT NULL CHECK (VALOR_UNT > 0),
+    TEMPO INT
+    );
+
+CREATE TABLE PEDIDO (
+	NUM_PEDIDO INT auto_increment PRIMARY KEY,
+    DAT DATE NOT NULL,
+    ATENDIDO BOOLEAN DEFAULT FALSE,
+    OBS TEXT,
+    COD_CLIENTE INT NOT NULL,
+    FOREIGN KEY (COD_CLIENTE) REFERENCES CLIENTE(COD_CLIENTE)
+);
+
+CREATE TABLE ITEMSERVICO (
+	NR_ITEMSERV INT auto_increment primary KEY,
+    PEDIDONUM INT  NOT NULL,
+    SERVICOCODIGO INT NOT NULL,
+    DESCONTO DECIMAL (10,2), 
+    VALOR DECIMAL (10,2),
+    FOREIGN KEY (PEDIDONUM) REFERENCES PEDIDO(NUM_PEDIDO) ON DELETE CASCADE,
+    FOREIGN KEY (SERVICOCODIGO) REFERENCES SERVICO (NUM_SERV) ON DELETE CASCADE
+);
